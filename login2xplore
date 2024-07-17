@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Enrollment Form</title>
+    <script>
+        function loadForm() {
+            resetForm();
+            document.getElementById("rollNo").focus();
+        }
+
+        function resetForm() {
+            document.getElementById("enrollmentForm").reset();
+            enableFields(false);
+            document.getElementById("rollNo").disabled = false;
+            document.getElementById("saveBtn").disabled = true;
+            document.getElementById("updateBtn").disabled = true;
+            document.getElementById("resetBtn").disabled = true;
+        }
+
+        function enableFields(enable) {
+            document.getElementById("fullName").disabled = !enable;
+            document.getElementById("class").disabled = !enable;
+            document.getElementById("birthDate").disabled = !enable;
+            document.getElementById("address").disabled = !enable;
+            document.getElementById("enrollmentDate").disabled = !enable;
+        }
+
+        function onPrimaryKeyEntered() {
+            const rollNo = document.getElementById("rollNo").value;
+            if (rollNo) {
+                // Check if Roll-No exists in the database (pseudo-code)
+                const exists = checkRollNoInDatabase(rollNo); // Implement this function as per your database logic
+                
+                if (exists) {
+                    loadDataIntoForm(rollNo);
+                    enableFields(true);
+                    document.getElementById("saveBtn").disabled = true;
+                    document.getElementById("updateBtn").disabled = false;
+                } else {
+                    enableFields(true);
+                    document.getElementById("saveBtn").disabled = false;
+                    document.getElementById("updateBtn").disabled = true;
+                }
+                document.getElementById("resetBtn").disabled = false;
+            }
+        }
+
+        function checkRollNoInDatabase(rollNo) {
+            // Implement the logic to check if the Roll-No exists in the database
+            // Return true if exists, false otherwise
+        }
+
+        function loadDataIntoForm(rollNo) {
+            // Implement the logic to load data from the database using Roll-No
+            // Populate the form fields with the fetched data
+        }
+
+        function saveData() {
+            if (validateForm()) {
+                // Implement the logic to save the form data to the database
+                resetForm();
+            }
+        }
+
+        function updateData() {
+            if (validateForm()) {
+                // Implement the logic to update the form data in the database
+                resetForm();
+            }
+        }
+
+        function validateForm() {
+            const fields = ["rollNo", "fullName", "class", "birthDate", "address", "enrollmentDate"];
+            for (let field of fields) {
+                if (!document.getElementById(field).value) {
+                    alert("All fields are required.");
+                    return false;
+                }
+            }
+            return true;
+        }
+    </script>
+</head>
+<body onload="loadForm()">
+    <h2>Student Enrollment Form</h2>
+    <form id="enrollmentForm">
+        <label for="rollNo">Roll No:</label><br>
+        <input type="text" id="rollNo" name="rollNo" onblur="onPrimaryKeyEntered()"><br><br>
+
+        <label for="fullName">Full Name:</label><br>
+        <input type="text" id="fullName" name="fullName" disabled><br><br>
+
+        <label for="class">Class:</label><br>
+        <input type="text" id="class" name="class" disabled><br><br>
+
+        <label for="birthDate">Birth Date:</label><br>
+        <input type="date" id="birthDate" name="birthDate" disabled><br><br>
+
+        <label for="address">Address:</label><br>
+        <input type="text" id="address" name="address" disabled><br><br>
+
+        <label for="enrollmentDate">Enrollment Date:</label><br>
+        <input type="date" id="enrollmentDate" name="enrollmentDate" disabled><br><br>
+
+        <button type="button" id="saveBtn" onclick="saveData()" disabled>Save</button>
+        <button type="button" id="updateBtn" onclick="updateData()" disabled>Update</button>
+        <button type="button" id="resetBtn" onclick="resetForm()" disabled>Reset</button>
+    </form>
+</body>
+</html>
+            
